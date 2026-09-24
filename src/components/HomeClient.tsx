@@ -137,9 +137,14 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
             <Link href="/projets" className="group flex min-h-[44px] items-center gap-2 text-sm uppercase tracking-[0.2em] text-champagne">Tout le catalogue <span className="transition-transform group-hover:translate-x-1"><IconArrow size={15} /></span></Link>
           </div>
         </Reveal>
-        <div className="mt-8 grid items-stretch gap-6 md:grid-cols-3">
-          {vedettes.map((b) => <BienCard key={b.id} bien={b} />)}
+        <div className="snap-row no-scrollbar mt-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+          {vedettes.map((b) => (
+            <div key={b.id} className="w-[86vw] max-w-[360px] md:w-auto md:max-w-none">
+              <BienCard bien={b} />
+            </div>
+          ))}
         </div>
+        <div className="rule-diamond mt-10" aria-hidden="true"><span /></div>
       </section>
 
       {/* Bandeau image Oran — savoir-faire */}
@@ -177,7 +182,7 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
           <p className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-champagne"><span className="font-display text-lg italic">04</span> Quartiers</p>
           <h2 className="font-display mt-2 text-4xl md:text-5xl">Oran, <em className="text-champagne-clair">rue par rue</em></h2>
         </Reveal>
-        <div className="snap-row no-scrollbar mt-8 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible">
+        <div className="snap-row no-scrollbar mt-8 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0">
           {[
             ["Bir El Djir", "Boulevard des Lions — résidences Melissa"],
             ["Akid Lotfi", "Standing & vue mer"],

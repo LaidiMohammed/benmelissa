@@ -64,9 +64,9 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
       <AnimatePresence mode="wait">
         <motion.div key={tab} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }} className="py-6">
           {tab === "photos" && (
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="snap-row no-scrollbar sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 lg:grid-cols-3">
               {bien.images.map((src) => (
-                <button key={src} onClick={() => setLightbox(src)} className="group overflow-hidden border border-champagne/15">
+                <button key={src} onClick={() => setLightbox(src)} className="group w-[84vw] max-w-[380px] overflow-hidden border border-champagne/15 active:border-champagne sm:w-auto sm:max-w-none">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={src} alt={bien.titre} loading="lazy" className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105" />
                 </button>

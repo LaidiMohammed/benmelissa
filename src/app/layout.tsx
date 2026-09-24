@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
@@ -14,6 +14,13 @@ const corps = Inter({ subsets: ["latin"], variable: "--font-corps" });
 export const metadata: Metadata = {
   title: "Ben Melissa Promotion — Immobilier à Oran",
   description: "Promoteur immobilier à Bir El Djir, Oran. Appartements, programmes neufs, visites 3D et accompagnement en français.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0b",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

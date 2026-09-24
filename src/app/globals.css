@@ -103,6 +103,39 @@ input, select, textarea {
   display: block;
 }
 
+/* Filet luxe avec losange (100 % CSS, zéro emoji) */
+.rule-diamond {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.rule-diamond::before,
+.rule-diamond::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(to right, transparent, rgba(201, 168, 106, 0.6));
+}
+.rule-diamond::after {
+  background: linear-gradient(to left, transparent, rgba(201, 168, 106, 0.6));
+}
+.rule-diamond > span {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  border: 1px solid #c9a86a;
+  flex-shrink: 0;
+}
+
+/* Retour tactile + focus visibles */
+a, button {
+  -webkit-tap-highlight-color: rgba(201, 168, 106, 0.25);
+}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #c9a86a;
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee, .animate-kenburns { animation: none; }
   html { scroll-behavior: auto; }
