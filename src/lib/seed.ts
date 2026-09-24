@@ -115,7 +115,7 @@ export const SEED_SETTINGS: SiteSettings = {
       ville: "Oran",
       mp4: "/ORAN.mp4",
       poster: "/hero-oran-poster.jpg",
-      youtube: "",
+      youtube: "https://www.youtube.com/watch?v=uM86KVBI9Yc",
     },
   ],
 };

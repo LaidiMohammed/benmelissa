@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { IconPhone, IconArrow, IconCheck, IconStar } from "@/components/icons";
@@ -22,19 +22,22 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
   const titleY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const hero = settings.heroVideos?.[0];
   const heroMp4 = hero?.mp4 && hero.mp4.length > 4 ? hero.mp4 : null;
+  const heroYoutube = hero?.youtube && hero.youtube.length > 8 ? hero.youtube : null;
+  // Si le MP4 local manque (404 en prod), bascule auto vers YouTube puis photo.
+  const [mp4Failed, setMp4Failed] = useState(false);
   const vedettes = biens.filter((b) => b.vedette).slice(0, 3);
 
   return (
     <>
       {/* Hero — vidéo ORAN plein cadre depuis le haut de l'écran */}
       <section ref={heroRef} className="relative flex min-h-[100svh] items-end overflow-hidden">
-        {heroMp4 ? (
+        {heroMp4 && !mp4Failed ? (
           /* Vidéo ORAN plein écran toutes tailles : remplit tout, sans bandes */
           <video key={heroMp4} autoPlay muted loop playsInline preload="auto" poster={hero?.poster ?? "/hero-oran-poster.jpg"} className="absolute inset-0 h-full w-full object-cover object-center">
-            <source src={heroMp4} type="video/mp4" />
+            <source src={heroMp4} type="video/mp4" onError={() => setMp4Failed(true)} />
           </video>
-        ) : hero?.youtube && hero.youtube.length > 8 ? (
-          <HeroVideo youtubeUrl={hero.youtube} poster={hero?.poster ?? "/hero-oran-poster.jpg"} />
+        ) : heroYoutube ? (
+          <HeroVideo youtubeUrl={heroYoutube} poster={hero?.poster ?? "/hero-oran-poster.jpg"} />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={hero?.poster ?? "/hero-oran-poster.jpg"} alt="Résidences Ben Melissa, Oran" className="animate-kenburns absolute inset-0 h-full w-full object-cover" />
