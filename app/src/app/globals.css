@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-noir: #0a0a0b;
+  --color-champagne: #c9a86a;
+  --color-champagne-clair: #e8d5a8;
+  --color-creme: #f7f3ec;
+  --color-pierre: #8a857c;
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-corps: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px;
+  overflow-x: hidden;
+}
+
+body {
+  background: #0a0a0b;
+  color: #f7f3ec;
+  font-family: var(--font-corps);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: rgba(201, 168, 106, 0.25);
+  overscroll-behavior-y: none;
+}
+
+/* Rangées défilantes snap (mobile) */
+.snap-row {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+}
+.snap-row > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Titre fluide hero */
+.hero-title {
+  font-size: clamp(3rem, 14.5vw, 7.5rem);
+  line-height: 0.95;
+}
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: #c9a86a;
+  color: #0a0a0b;
+}
+
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* Marquee défilant */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+/* Ken Burns lent 26s alternate (fallback photo hero) */
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.12); }
+}
+.animate-kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+}
+
+/* Cartes : dimensions strictement égales */
+.bien-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.bien-card-img {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-kenburns { animation: none; }
+  html { scroll-behavior: auto; }
+}
