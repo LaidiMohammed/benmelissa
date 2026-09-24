@@ -40,9 +40,6 @@ yarn-error.log*
 data/*.json
 !data/.gitkeep
 
-# vidéo hero locale 106 Mo > limite GitHub 100 Mo (servie en dev ; en prod : poster + champ admin)
-public/ORAN.mp4
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
