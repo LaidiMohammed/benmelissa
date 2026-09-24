@@ -53,18 +53,28 @@ export default function Header({ tel, telHref, logoUrl }: { tel: string; telHref
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link href="/" className="group flex items-center gap-3" aria-label="Ben Melissa Promotion">
             {logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="Ben Melissa" className="h-11 w-11 object-contain" />
+              <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-creme p-1 ring-1 ring-champagne/70">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={logoUrl} alt="Ben Melissa Promotion" className="h-full w-full rounded-full object-cover" />
+              </span>
             ) : (
               <LogoBM size={44} />
             )}
             <span className="leading-none">
-              <span className="font-display block text-[22px] tracking-wide text-creme transition group-hover:text-champagne-clair">
-                Ben <em className="text-champagne">Melissa</em>
-              </span>
-              <span className="mt-1 block border-t border-champagne/40 pt-1 text-[10px] uppercase tracking-[0.32em] text-pierre">
-                Promotion · Oran
-              </span>
+              {logoUrl ? (
+                <span className="mt-1 block text-[10px] uppercase tracking-[0.32em] text-champagne-clair">
+                  Promotion · Oran
+                </span>
+              ) : (
+                <>
+                  <span className="font-display block text-[22px] tracking-wide text-creme transition group-hover:text-champagne-clair">
+                    Ben <em className="text-champagne">Melissa</em>
+                  </span>
+                  <span className="mt-1 block border-t border-champagne/40 pt-1 text-[10px] uppercase tracking-[0.32em] text-pierre">
+                    Promotion · Oran
+                  </span>
+                </>
+              )}
             </span>
           </Link>
 
@@ -105,7 +115,17 @@ export default function Header({ tel, telHref, logoUrl }: { tel: string; telHref
             className="fixed inset-0 z-50 flex flex-col bg-noir"
           >
             <div className="flex items-center justify-between px-4 py-3">
-              <p className="font-display text-xl text-champagne-clair">Ben <em>Melissa</em></p>
+              <span className="flex items-center gap-3">
+                {logoUrl ? (
+                  <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-creme p-1 ring-1 ring-champagne/70">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={logoUrl} alt="Ben Melissa Promotion" className="h-full w-full rounded-full object-cover" />
+                  </span>
+                ) : (
+                  <LogoBM size={40} />
+                )}
+                <span className="font-display text-xl text-champagne-clair">Ben <em>Melissa</em></span>
+              </span>
               <button onClick={() => setOpen(false)} aria-label="Fermer le menu" className="flex h-[44px] w-[44px] items-center justify-center border border-champagne/40 text-creme">
                 <IconClose />
               </button>

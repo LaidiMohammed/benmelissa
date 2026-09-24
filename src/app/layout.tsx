@@ -14,6 +14,7 @@ const corps = Inter({ subsets: ["latin"], variable: "--font-corps" });
 export const metadata: Metadata = {
   title: "Ben Melissa Promotion — Immobilier à Oran",
   description: "Promoteur immobilier à Bir El Djir, Oran. Appartements, programmes neufs, visites 3D et accompagnement en français.",
+  icons: { icon: "/logo.png", apple: "/logo.png" },
 };
 
 export const viewport: Viewport = {

@@ -109,7 +109,7 @@ export const SEED_SETTINGS: SiteSettings = {
   facebook: "https://www.facebook.com/promotionbenmelissathose",
   instagram: "https://www.instagram.com/",
   tiktok: "https://www.tiktok.com/@benmelissapromo",
-  logoUrl: "",
+  logoUrl: "/logo.png",
   heroVideos: [
     {
       ville: "Oran",

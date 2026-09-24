@@ -7,7 +7,15 @@ export default function Footer({ settings }: { settings: SiteSettings | null }) 
     <footer className="border-t border-champagne/20 bg-noir">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-xl text-champagne-clair">Ben Melissa Promotion</p>
+          <p className="flex items-center gap-3">
+            {s?.logoUrl ? (
+              <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-creme p-1 ring-1 ring-champagne/70">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.logoUrl} alt="Ben Melissa Promotion" className="h-full w-full rounded-full object-cover" />
+              </span>
+            ) : null}
+            <span className="font-display text-xl text-champagne-clair">Ben Melissa Promotion</span>
+          </p>
           <p className="mt-2 text-sm text-creme/70">{s?.adresse ?? "Rue 5 Juillet, Bir El Djir, Oran"}</p>
           <p className="mt-1 text-sm text-creme/70">{s?.horaires ?? "Sam–Jeu 9h–19h sur rendez-vous"}</p>
         </div>

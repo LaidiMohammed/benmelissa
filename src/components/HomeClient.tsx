@@ -32,9 +32,9 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
       {/* Hero — vidéo ORAN plein cadre depuis le haut de l'écran */}
       <section ref={heroRef} className="relative flex min-h-[100svh] items-end overflow-hidden">
         {heroMp4 && !mp4Failed ? (
-          /* Vidéo ORAN plein écran toutes tailles : remplit tout, sans bandes */
-          <video key={heroMp4} autoPlay muted loop playsInline preload="auto" poster={hero?.poster ?? "/hero-oran-poster.jpg"} className="absolute inset-0 h-full w-full object-cover object-center">
-            <source src={heroMp4} type="video/mp4" onError={() => setMp4Failed(true)} />
+          /* Vidéo ORAN plein écran desktop (≥768px) ; téléphone = poster HD + Ken Burns */
+          <video key={heroMp4} autoPlay muted loop playsInline preload="metadata" poster={hero?.poster ?? "/hero-oran-poster.jpg"} className="absolute inset-0 h-full w-full object-cover object-center">
+            <source src={heroMp4} type="video/mp4" media="(min-width: 768px)" onError={() => setMp4Failed(true)} />
           </video>
         ) : heroYoutube ? (
           <HeroVideo youtubeUrl={heroYoutube} poster={hero?.poster ?? "/hero-oran-poster.jpg"} />
@@ -48,7 +48,7 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
         <motion.div style={{ scale: titleScale, y: titleY }} className="relative mx-auto w-full max-w-6xl px-4 pb-14 pt-32 md:pt-36">
           <div className="flex items-center gap-4">
             <span className="h-px w-12 bg-champagne" />
-            <p className="text-xs uppercase tracking-[0.35em] text-champagne-clair">N°01 — Promoteur · Bir El Djir, Oran</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-champagne-clair sm:tracking-[0.35em]">N°01 — Promoteur · Bir El Djir, Oran</p>
           </div>
           <h1 className="font-display hero-title mt-4 max-w-4xl text-creme">
             Habiter Oran,
@@ -78,7 +78,7 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
             ].map(([n, l]) => (
               <div key={l} className="px-4 first:pl-0">
                 <dt className="font-display text-2xl text-champagne-clair md:text-3xl">{n}</dt>
-                <dd className="mt-0.5 text-[11px] uppercase tracking-[0.2em] text-creme/60">{l}</dd>
+                <dd className="mt-0.5 text-[10px] uppercase tracking-[0.14em] text-creme/60 sm:text-[11px] sm:tracking-[0.2em]">{l}</dd>
               </div>
             ))}
           </dl>
