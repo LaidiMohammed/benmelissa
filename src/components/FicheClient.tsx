@@ -53,6 +53,15 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
         <span className="flex items-center gap-1"><IconArea size={15} /> {bien.surface} m²</span>
         <span className="flex items-center gap-1"><IconBed size={15} /> {bien.pieces} pièces · {bien.chambres} ch.</span>
       </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {bien.features.map((f) => <span key={f} className="border border-champagne/25 px-3 py-1 text-xs text-champagne-clair">{f}</span>)}
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2 text-xs">
+        <span className={`px-2 py-1 ${plans.length ? "bg-champagne text-noir" : "border border-pierre/30 text-pierre"}`}>Plan 2D {plans.length ? "✓" : "à venir"}</span>
+        <span className={`px-2 py-1 ${d3 ? "bg-champagne text-noir" : "border border-pierre/30 text-pierre"}`}>Maquette 3D {d3 ? "✓" : "à venir"}</span>
+        <span className={`px-2 py-1 ${yt || tk ? "bg-champagne text-noir" : "border border-pierre/30 text-pierre"}`}>Vidéo chantier {yt || tk ? "✓" : "à venir"}</span>
+        <span className="bg-creme px-2 py-1 text-noir">QR chantier ✓</span>
+      </div>
 
       <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto border-b border-champagne/20 px-4 md:mx-0 md:flex-wrap md:px-0">
         {tabs.map(([id, label]) => (
@@ -132,9 +141,14 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
         <div>
           <h2 className="font-display text-2xl">Description</h2>
           <p className="mt-2 text-sm leading-relaxed text-creme/80">{bien.description}</p>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {bien.features.map((f) => <li key={f} className="border border-champagne/30 px-3 py-1 text-xs text-champagne-clair">{f}</li>)}
-          </ul>
+          <div className="mt-4 flex items-center gap-4 border border-champagne/20 bg-[#111113] p-4">
+            {pageUrl && <QRCodeSVG value={pageUrl} size={96} />}
+            <div>
+              <p className="text-sm font-medium text-champagne-clair">QR chantier</p>
+              <p className="text-xs text-creme/60">Scannez sur site pour ouvrir cette fiche, partager le plan 2D et la vidéo.</p>
+              <p className="mt-1 text-xs text-pierre">Plans 2D + maquette 3D + vidéo — onglet ci-dessus</p>
+            </div>
+          </div>
         </div>
         <form onSubmit={rdv} className="border border-champagne/25 bg-creme p-5 text-noir">
           <h2 className="font-display text-2xl">Demander une visite</h2>
