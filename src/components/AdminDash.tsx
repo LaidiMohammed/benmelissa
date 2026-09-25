@@ -12,6 +12,8 @@ export default function AdminDash() {
   const [tab, setTab] = useState<"biens" | "leads" | "reglages">("biens");
   const [form, setForm] = useState<Partial<Bien> & { imagesText?: string; plansText?: string }>(EMPTY as never);
   const [msg, setMsg] = useState("");
+  const [importText, setImportText] = useState("");
+  const [importMode, setImportMode] = useState<"merge" | "replace" | "reseed">("merge");
 
   async function load() {
     const [b, l, s] = await Promise.all([
@@ -57,6 +59,41 @@ export default function AdminDash() {
     if (res.ok) setMsg("Réglages enregistrés.");
   }
 
+  async function doImport() {
+    setMsg("");
+    try {
+      let payload: Record<string, unknown> = { mode: importMode };
+      const t = importText.trim();
+      if (importMode === "reseed") {
+        payload = { mode: "reseed" };
+      } else if (t.startsWith("[") || t.startsWith("{")) {
+        const parsed = JSON.parse(t);
+        if (Array.isArray(parsed)) payload = { biens: parsed, mode: importMode };
+        else if (Array.isArray(parsed.biens)) payload = { biens: parsed.biens, mode: importMode };
+        else payload = { biens: [parsed], mode: importMode };
+      } else if (t.includes(",") || t.includes(";") || t.includes("\n")) {
+        payload = { csv: t, mode: importMode };
+      } else {
+        setMsg("Collez un JSON ( [ {titre,prix,…} ] ) ou un CSV, ou choisissez Reseed.");
+        return;
+      }
+      const res = await fetch("/api/admin/import", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (res.ok) { setMsg(`Import OK — ${data.count} biens (${data.mode}).`); setImportText(""); load(); }
+      else setMsg(data.error ?? "Erreur import");
+    } catch (e) { setMsg(`JSON invalide: ${(e as Error).message}`); }
+  }
+
+  async function doExport() {
+    const res = await fetch("/api/admin/import");
+    const data = await res.json();
+    const blob = new Blob([JSON.stringify(data.biens ?? data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `ben-melissa-biens-${new Date().toISOString().slice(0, 10)}.json`; a.click();
+    URL.revokeObjectURL(url);
+  }
+
   const stats = [
     ["Biens", biens.length],
     ["Disponibles", biens.filter((b) => b.statut === "disponible").length],
@@ -84,6 +121,31 @@ export default function AdminDash() {
 
       {tab === "biens" && (
         <>
+          <div className="mt-4 border border-champagne/25 bg-creme p-4 text-noir">
+            <p className="font-display text-lg">Import réel Ben Melissa — plans & projets</p>
+            <p className="mt-1 text-xs leading-relaxed text-pierre">Collez un <strong>JSON</strong> <code className="bg-white px-1">[&#123;&quot;titre&quot;,&quot;prix&quot;,&quot;surface&quot;,&quot;plans&quot;:[&quot;url&quot;]&#125;]</code> ou un <strong>CSV</strong> (<code className="bg-white px-1">titre;prix;surface;plans;images;localisation;statut;type</code> — plans et images séparés par <code className="bg-white px-1">|</code>). Les <strong>plans PDF</strong> s&apos;affichent en bouton, les images en lightbox. <em>Reseed</em> réinstalle les 6 projets réels Oran ci-dessus (écrase les démos).</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <select value={importMode} onChange={(e) => setImportMode(e.target.value as never)} className="min-h-[44px] border border-noir/20 bg-white px-3 text-sm">
+                <option value="merge">Merge (ajoute / met à jour)</option>
+                <option value="replace">Replace (remplace tout)</option>
+                <option value="reseed">Reseed (restaure les 6 réels)</option>
+              </select>
+              <button onClick={doImport} className="flex min-h-[44px] items-center bg-noir px-5 text-sm text-champagne-clair transition active:scale-[0.98]">Importer</button>
+              <button onClick={doExport} className="flex min-h-[44px] items-center border border-noir/20 bg-white px-5 text-sm transition active:scale-[0.98]">Exporter JSON</button>
+              <label className="flex min-h-[44px] cursor-pointer items-center border border-noir/20 bg-white px-5 text-sm">
+                Fichier JSON/CSV
+                <input type="file" accept=".json,.csv" className="hidden" onChange={async (e) => {
+                  const f = e.target.files?.[0]; if (!f) return;
+                  const text = await f.text(); setImportText(text);
+                }} />
+              </label>
+            </div>
+            {importMode !== "reseed" && (
+              <textarea value={importText} onChange={(e) => setImportText(e.target.value)} placeholder={`JSON exemple:\n[{\"titre\":\"F3 Belgaïd\",\"prix\":14500000,\"surface\":78,\"pieces\":3,\"chambres\":2,\"localisation\":\"Belgaïd\",\"type\":\"appartement\",\"statut\":\"disponible\",\"images\":[\"https://.../img.jpg\"],\"plans\":[\"https://.../plan-f3.jpg\",\"https://.../plan.pdf\"],\"features\":[\"Balcon\",\"Parking\"],\"vedette\":true}]\n\nCSV exemple ( ; séparateur, | pour listes ):\ntitre;prix;surface;pieces;chambres;localisation;type;statut;images;plans\nF3 Belgaïd;14500000;78;3;2;Belgaïd;appartement;disponible;https://.../a.jpg|https://.../b.jpg;https://.../plan.jpg|https://.../plan.pdf`} rows={7} className="mt-3 w-full border border-noir/20 bg-white px-3 py-2 font-mono text-xs" />
+            )}
+            <p className="mt-2 text-xs text-pierre">Astuce plans : exportez vos plans LayOut en <strong>PNG 1600px</strong> ou <strong>PDF</strong>, hébergez sur <code className="bg-white px-1">/public/plans/</code> ou Drive/Dropbox (lien direct), puis collez l&apos;URL dans <code className="bg-white px-1">plans</code> — le site affiche automatiquement.</p>
+          </div>
+
           <form onSubmit={save} className="mt-4 grid gap-3 border border-champagne/25 bg-creme p-4 text-noir md:grid-cols-2">
             <p className="text-xs uppercase tracking-widest text-pierre md:col-span-2">Ajouter / éditer — collez simplement les liens, le site fait le reste (<a href="/guide-3d" className="underline">guide 3D</a>)</p>
             <input value={form.id ?? ""} onChange={(e) => set("id", e.target.value)} placeholder="ID (vide = nouveau)" className="min-h-[44px] border border-noir/20 bg-white px-3" />

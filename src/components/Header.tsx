@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { LogoBM, IconMenu, IconClose, IconPhone } from "./icons";
+import { LogoBM, IconClose, IconPhone } from "./icons";
 
 const LINKS: [string, string][] = [
   ["Projets", "/projets"],
@@ -29,6 +29,8 @@ export default function Header({ tel, telHref, logoUrl }: { tel: string; telHref
   }, []);
 
   useEffect(() => {
+    // Fermer le menu mobile à chaque navigation — cas légitime de sync route → UI
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
 

@@ -38,6 +38,8 @@ export default function HeroVideo({ youtubeUrl, poster }: { youtubeUrl: string; 
 
   useEffect(() => {
     if (!id) {
+      // id invalide → repli poster, sync dérivée nécessaire
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFailed(true);
       return;
     }
