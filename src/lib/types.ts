@@ -70,4 +70,5 @@ export interface SiteSettings {
   tiktok: string;
   logoUrl?: string;
   heroVideos?: HeroVideo[];
+  quartierImages?: Record<string, string>;
 }

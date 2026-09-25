@@ -94,6 +94,29 @@ export default function AdminDash() {
     URL.revokeObjectURL(url);
   }
 
+  async function uploadFiles(files: FileList, kind: "projet" | "plan" | "quartier", quartier?: string, target?: "images" | "plans") {
+    const fd = new FormData();
+    Array.from(files).forEach((f) => fd.append("files", f));
+    fd.append("kind", kind);
+    if (quartier) fd.append("quartier", quartier);
+    const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+    const data = await res.json();
+    if (!res.ok) { setMsg(data.error ?? "Upload échoué"); return; }
+    const urls: string[] = data.urls ?? [];
+    if (target === "images") {
+      setForm((f) => ({ ...f, imagesText: [((f as { imagesText?: string }).imagesText ?? "").trim(), ...urls].filter(Boolean).join("\n") }));
+    } else if (target === "plans") {
+      setForm((f) => ({ ...f, plansText: [((f as { plansText?: string }).plansText ?? "").trim(), ...urls].filter(Boolean).join("\n") }));
+    } else if (kind === "quartier" && quartier && settings) {
+      const next = { ...settings, quartierImages: { ...(settings.quartierImages ?? {}), [quartier]: urls[0] } };
+      setSettings(next);
+      await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(next) });
+      setMsg(`Quartier ${quartier} image mise à jour : ${urls[0]}`);
+    } else {
+      setMsg(`Upload OK : ${urls.join(", ")}`);
+    }
+  }
+
   const stats = [
     ["Biens", biens.length],
     ["Disponibles", biens.filter((b) => b.statut === "disponible").length],
@@ -164,8 +187,18 @@ export default function AdminDash() {
             <input value={form.localisation ?? ""} onChange={(e) => set("localisation", e.target.value)} placeholder="Quartier (Bir El Djir…)" className="min-h-[44px] border border-noir/20 bg-white px-3" />
             <input value={form.slug ?? ""} onChange={(e) => set("slug", e.target.value)} placeholder="Slug (auto si vide)" className="min-h-[44px] border border-noir/20 bg-white px-3" />
             <textarea value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} placeholder="Description FR" rows={3} className="border border-noir/20 bg-white px-3 py-2 md:col-span-2" />
-            <textarea value={(form as { imagesText?: string }).imagesText ?? ""} onChange={(e) => set("imagesText", e.target.value)} placeholder="Images : 1 URL par ligne" rows={3} className="border border-noir/20 bg-white px-3 py-2" />
-            <textarea value={(form as { plansText?: string }).plansText ?? ""} onChange={(e) => set("plansText", e.target.value)} placeholder="Plans 2D : 1 URL image par ligne (PDF = bouton auto)" rows={3} className="border border-noir/20 bg-white px-3 py-2" />
+            <div>
+              <textarea value={(form as { imagesText?: string }).imagesText ?? ""} onChange={(e) => set("imagesText", e.target.value)} placeholder="Images : 1 URL par ligne" rows={3} className="w-full border border-noir/20 bg-white px-3 py-2" />
+              <label className="mt-1 flex min-h-[40px] cursor-pointer items-center justify-center border border-dashed border-noir/20 bg-white px-3 text-xs">+ Upload photos (glisser / choisir)
+                <input type="file" multiple accept="image/*" className="hidden" onChange={(e) => { if (e.target.files) uploadFiles(e.target.files, "projet", undefined, "images"); e.target.value = ""; }} />
+              </label>
+            </div>
+            <div>
+              <textarea value={(form as { plansText?: string }).plansText ?? ""} onChange={(e) => set("plansText", e.target.value)} placeholder="Plans 2D : 1 URL image par ligne (PDF = bouton auto)" rows={3} className="w-full border border-noir/20 bg-white px-3 py-2" />
+              <label className="mt-1 flex min-h-[40px] cursor-pointer items-center justify-center border border-dashed border-noir/20 bg-white px-3 text-xs">+ Upload plans (JPG / PDF)
+                <input type="file" multiple accept="image/*,.pdf" className="hidden" onChange={(e) => { if (e.target.files) uploadFiles(e.target.files, "plan", undefined, "plans"); e.target.value = ""; }} />
+              </label>
+            </div>
             <input value={form.mapsUrl ?? ""} onChange={(e) => set("mapsUrl", e.target.value)} placeholder="Lien Google Maps (partager / place / iframe)" className="min-h-[44px] border border-noir/20 bg-white px-3 md:col-span-2" />
             <input value={form.url3d ?? ""} onChange={(e) => set("url3d", e.target.value)} placeholder="Lien 3D (Sketchfab / Matterport)" className="min-h-[44px] border border-noir/20 bg-white px-3 md:col-span-2" />
             <input value={form.videoUrl ?? ""} onChange={(e) => set("videoUrl", e.target.value)} placeholder="Vidéo (YouTube watch/shorts ou TikTok)" className="min-h-[44px] border border-noir/20 bg-white px-3 md:col-span-2" />
@@ -206,20 +239,48 @@ export default function AdminDash() {
       )}
 
       {tab === "reglages" && settings && (
-        <form onSubmit={saveSettings} className="mt-4 grid gap-3 border border-champagne/25 bg-creme p-4 text-noir md:grid-cols-2">
-          {[["adresse", "Adresse"], ["tel", "Téléphone affiché"], ["telHref", "Lien tel (tel:+213…)"], ["email", "Email"], ["horaires", "Horaires"], ["visites", "Visites"], ["messageRepondeur", "Message répondeur"], ["facebook", "Facebook URL"], ["instagram", "Instagram URL"], ["tiktok", "TikTok URL"], ["logoUrl", "Logo URL (vide = monogramme BM)"]].map(([k, label]) => (
-            <label key={k} className="text-xs uppercase tracking-widest text-pierre">{label}
-              <input name={k} defaultValue={(settings as unknown as Record<string, string>)[k] ?? ""} className="mt-1 min-h-[44px] w-full border border-noir/20 bg-white px-3 normal-case" />
+        <>
+          <form onSubmit={saveSettings} className="mt-4 grid gap-3 border border-champagne/25 bg-creme p-4 text-noir md:grid-cols-2">
+            {[["adresse", "Adresse"], ["tel", "Téléphone affiché"], ["telHref", "Lien tel (tel:+213…)"], ["email", "Email"], ["horaires", "Horaires"], ["visites", "Visites"], ["messageRepondeur", "Message répondeur"], ["facebook", "Facebook URL"], ["instagram", "Instagram URL"], ["tiktok", "TikTok URL"], ["logoUrl", "Logo URL (vide = monogramme BM)"]].map(([k, label]) => (
+              <label key={k} className="text-xs uppercase tracking-widest text-pierre">{label}
+                <input name={k} defaultValue={(settings as unknown as Record<string, string>)[k] ?? ""} className="mt-1 min-h-[44px] w-full border border-noir/20 bg-white px-3 normal-case" />
+              </label>
+            ))}
+            <label className="text-xs uppercase tracking-widest text-pierre md:col-span-2">Vidéo hero YouTube (URL watch — prioritaire, ex. drone Oran)
+              <input name="heroYoutube" defaultValue={settings.heroVideos?.[0]?.youtube ?? ""} className="mt-1 min-h-[44px] w-full border border-noir/20 bg-white px-3 normal-case" />
             </label>
-          ))}
-          <label className="text-xs uppercase tracking-widest text-pierre md:col-span-2">Vidéo hero YouTube (URL watch — prioritaire, ex. drone Oran)
-            <input name="heroYoutube" defaultValue={settings.heroVideos?.[0]?.youtube ?? ""} className="mt-1 min-h-[44px] w-full border border-noir/20 bg-white px-3 normal-case" />
-          </label>
-          <label className="text-xs uppercase tracking-widest text-pierre md:col-span-2">Vidéo hero (MP4 directe, repli si YouTube vide — vide = photo Ken Burns)
-            <input name="heroMp4" defaultValue={settings.heroVideos?.[0]?.mp4 ?? ""} className="mt-1 min-h-[44px] w-full border border-noir/20 bg-white px-3 normal-case" />
-          </label>
-          <button className="min-h-[44px] bg-noir text-champagne-clair md:col-span-2">Enregistrer les réglages</button>
-        </form>
+            <label className="text-xs uppercase tracking-widest text-pierre md:col-span-2">Vidéo hero (MP4 directe, repli si YouTube vide — vide = photo Ken Burns)
+              <input name="heroMp4" defaultValue={settings.heroVideos?.[0]?.mp4 ?? ""} className="mt-1 min-h-[44px] w-full border border-noir/20 bg-white px-3 normal-case" />
+            </label>
+            <button className="min-h-[44px] bg-noir text-champagne-clair md:col-span-2">Enregistrer les réglages</button>
+          </form>
+
+          <div className="mt-4 border border-champagne/25 bg-creme p-4 text-noir">
+            <p className="font-display text-lg">Images quartiers — remplace les placeholders</p>
+            <p className="mt-1 text-xs text-pierre">Upload une photo 1200×675 par quartier (Oran réel). Laisse vide pour utiliser la 1ère photo du 1er bien du quartier automatiquement.</p>
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              {["Belgaïd", "Bir El Djir", "Frange Maritime", "Canastel", "Akid Lotfi", "Santa Cruz", "Es Sénia"].map((q) => (
+                <div key={q} className="border border-noir/15 bg-white p-3">
+                  <p className="text-xs uppercase tracking-widest text-pierre">{q}</p>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={settings.quartierImages?.[q] ?? ""} alt={q} className={`mt-2 aspect-[16/9] w-full object-cover ${!settings.quartierImages?.[q] ? "hidden" : ""}`} />
+                  {!settings.quartierImages?.[q] && <p className="mt-2 text-xs text-pierre/60">Aucune image custom — fallback bien/placeholder</p>}
+                  <input defaultValue={settings.quartierImages?.[q] ?? ""} placeholder={`/q-${q.toLowerCase().replace(/\s/g, "")}.jpg ou https://…`} onBlur={async (e) => {
+                    const v = e.target.value.trim();
+                    const next = { ...settings, quartierImages: { ...(settings.quartierImages ?? {}), [q]: v } };
+                    if (!v) delete (next.quartierImages as Record<string, string>)[q];
+                    await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(next) });
+                    setSettings(next);
+                    setMsg(`Quartier ${q} ${v ? "mis à jour" : "réinitialisé"}`);
+                  }} className="mt-2 min-h-[40px] w-full border border-noir/20 px-3 text-xs normal-case" />
+                  <label className="mt-2 flex min-h-[40px] cursor-pointer items-center justify-center border border-dashed border-noir/20 px-3 text-xs">+ Upload image {q}
+                    <input type="file" accept="image/*" className="hidden" onChange={(e) => { if (e.target.files) uploadFiles(e.target.files, "quartier", q); e.target.value = ""; }} />
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

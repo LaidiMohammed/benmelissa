@@ -8,12 +8,25 @@ import BienCard from "@/components/BienCard";
 import { Reveal } from "@/components/Reveal";
 import type { Bien, SiteSettings } from "@/lib/types";
 
-const QUARTIER_IMG: Record<string, string> = {
+const FALLBACK_QUARTIER_IMG: Record<string, string> = {
   "Bir El Djir": "/q-bireldjir.jpg",
+  Belgaïd: "/q-bireldjir.jpg",
   "Akid Lotfi": "/q-akidlotfi.jpg",
   "Santa Cruz": "/q-santacruz.jpg",
+  "Frange Maritime": "/q-santacruz.jpg",
+  Canastel: "/band-oran.jpg",
   "Es Sénia": "/band-oran.jpg",
 };
+
+function quartierImg(q: string, biens: Bien[], settings: SiteSettings): string {
+  // 1) image custom depuis /admin > Réglages > quartierImages
+  if (settings.quartierImages?.[q]) return settings.quartierImages[q];
+  // 2) sinon 1ère photo du 1er bien de ce quartier (devient réel dès que tu uploades tes photos)
+  const first = biens.find((b) => b.localisation === q);
+  if (first?.images?.[0]) return first.images[0];
+  // 3) fallback placeholder local
+  return FALLBACK_QUARTIER_IMG[q] ?? "/band-oran.jpg";
+}
 
 export default function HomeClient({ biens, settings }: { biens: Bien[]; settings: SiteSettings }) {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -184,15 +197,15 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
         </Reveal>
         <div className="snap-row no-scrollbar mt-8 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0">
           {[
+            ["Belgaïd", "150 log. Les Iris — cœur Ben Melissa"],
             ["Bir El Djir", "Boulevard des Lions — résidences Melissa"],
-            ["Akid Lotfi", "Standing & vue mer"],
-            ["Santa Cruz", "Programme neuf 2027"],
-            ["Es Sénia", "Axe université — locatif"],
+            ["Frange Maritime", "Tour 14 étages, vue mer"],
+            ["Canastel", "Villas jardin & terrasse"],
           ].map(([q, d], i) => (
             <Reveal key={q} delay={i * 0.06} className="w-[84vw] max-w-[340px] sm:w-auto sm:max-w-none">
               <Link href={`/projets?quartier=${encodeURIComponent(q)}`} className="group relative block h-full overflow-hidden border border-champagne/20 active:border-champagne">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={QUARTIER_IMG[q] ?? "/band-oran.jpg"} alt={q} loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105" />
+                <img src={quartierImg(q, biens, settings)} alt={q} loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105" />
                 <span className="absolute inset-0 bg-gradient-to-t from-noir via-noir/25 to-transparent" />
                 <span className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
                   <span><span className="font-display block text-3xl text-creme">{q}</span><span className="text-xs uppercase tracking-[0.22em] text-champagne-clair/90">{d}</span></span>

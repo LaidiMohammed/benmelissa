@@ -183,6 +183,16 @@ export const SEED_SETTINGS: SiteSettings = {
       youtube: "https://www.youtube.com/watch?v=uM86KVBI9Yc",
     },
   ],
+  // Par défaut on réutilise la 1ère photo de chaque projet comme image de quartier — remplace par ta propre photo 1200×675 dans /public/q-*.jpg et édite ici ou via /admin
+  quartierImages: {
+    "Bir El Djir": "/q-bireldjir.jpg",
+    "Belgaïd": "/q-bireldjir.jpg",
+    "Akid Lotfi": "/q-akidlotfi.jpg",
+    "Santa Cruz": "/q-santacruz.jpg",
+    "Frange Maritime": "/q-santacruz.jpg",
+    "Canastel": "/band-oran.jpg",
+    "Es Sénia": "/band-oran.jpg",
+  },
 };
 
 export const SEED_LEADS: Lead[] = [];
