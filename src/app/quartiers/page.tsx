@@ -4,13 +4,13 @@ import BienCard from "@/components/BienCard";
 import { IconArrow } from "@/components/icons";
 
 const QUARTIERS_META: [string, string, string][] = [
-  ["Belgaïd", "150 log. Les Iris, 4 blocs, 35 parkings — cœur de Ben Melissa.", "/q-bireldjir.jpg"],
+  ["Belgaïd", "150 log. Les Iris, 4 blocs, 35 parkings — cœur de Ben Melissa.", "/q-belgaid.jpg"],
   ["Bir El Djir", "Boulevard des Lions, axe université. Résidences Melissa.", "/q-bireldjir.jpg"],
-  ["Frange Maritime", "Tour 14 étages, 48 log. + 4 duplex, vue mer.", "/q-santacruz.jpg"],
-  ["Canastel", "Villas jardin 120m², proche plage.", "/band-oran.jpg"],
+  ["Frange Maritime", "Tour 14 étages, 48 log. + 4 duplex, vue mer.", "/q-frange.jpg"],
+  ["Canastel", "Villas jardin 120m², proche plage.", "/q-canastel.jpg"],
   ["Akid Lotfi", "Standing et vue mer, résidences sécurisées.", "/q-akidlotfi.jpg"],
   ["Santa Cruz", "Programme neuf 2027 au pied du Murdjadjo.", "/q-santacruz.jpg"],
-  ["Es Sénia", "Proche aéroport et université, locatif étudiant.", "/band-oran.jpg"],
+  ["Es Sénia", "Proche aéroport et université, locatif étudiant.", "/q-essenia.jpg"],
 ];
 
 export default async function Quartiers() {

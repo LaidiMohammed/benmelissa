@@ -10,12 +10,12 @@ import type { Bien, SiteSettings } from "@/lib/types";
 
 const FALLBACK_QUARTIER_IMG: Record<string, string> = {
   "Bir El Djir": "/q-bireldjir.jpg",
-  Belgaïd: "/q-bireldjir.jpg",
+  Belgaïd: "/q-belgaid.jpg",
   "Akid Lotfi": "/q-akidlotfi.jpg",
   "Santa Cruz": "/q-santacruz.jpg",
-  "Frange Maritime": "/q-santacruz.jpg",
-  Canastel: "/band-oran.jpg",
-  "Es Sénia": "/band-oran.jpg",
+  "Frange Maritime": "/q-frange.jpg",
+  Canastel: "/q-canastel.jpg",
+  "Es Sénia": "/q-essenia.jpg",
 };
 
 function quartierImg(q: string, biens: Bien[], settings: SiteSettings): string {
