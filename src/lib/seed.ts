@@ -19,16 +19,9 @@ export const SEED_BIENS: Bien[] = [
     arrondissement: "Bir El Djir",
     description:
       "Programme phare Ben Melissa à Belgaïd : 150 logements (F2 64m² → F5 150m²) répartis en 4 blocs (A/B/C 10 étages, D 5 étages). Architecture moderne, locaux commerciaux + 35 parkings, résidence clôturée et sécurisée. F3 témoin 93m² : double séjour, cuisine équipée, balcon filant. Livraison par tranche, paiement échelonné ou crédit bancaire. Plans 2D et vidéo chantier disponibles — QR sur site.",
-    images: [
-      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    // Plans 2D : remplacer par tes LayOut/PDF exported — 1 URL par ligne dans l'admin (image ou .pdf)
-    plans: [
-      "https://images.pexels.com/photos/7213434/pexels-photo-7213434.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/7578848/pexels-photo-7578848.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
+    images: ["/q-bireldjir.jpg", "/band-oran.jpg", "/srv-neuf.jpg"],
+    // Plans : remplace par tes exports LayOut — /public/plans/f3-iris.jpg ou PDF. 1 URL par ligne dans /admin.
+    plans: ["/srv-interieur.jpg", "/srv-neuf.jpg"],
     mapsUrl: "https://www.google.com/maps?q=Belgaïd+Bir+El+Djir+Oran",
     url3d: "",
     videoUrl: "https://www.youtube.com/watch?v=uM86KVBI9Yc",
@@ -53,14 +46,8 @@ export const SEED_BIENS: Bien[] = [
     arrondissement: "Bir El Djir",
     description:
       "Très prisée : F4 de 130m² au 2e étage, résidence Ben Melissa Belgaïd. Séjour cathédrale 32m², 3 chambres dont suite parentale, cuisine équipée, double balcon. Chauffage central, climatisation, interphone, ascenseur, gardien 24/7. À 400m du 4e périphérique, commerces et écoles à pied. Plan 2D coté + maquette 3D sur demande.",
-    images: [
-      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    plans: [
-      "https://images.pexels.com/photos/7213434/pexels-photo-7213434.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
+    images: ["/q-bireldjir.jpg", "/srv-interieur.jpg", "/band-oran.jpg"],
+    plans: ["/srv-interieur.jpg"],
     mapsUrl: "https://www.google.com/maps?q=Belgaïd+Bir+El+Djir+Oran",
     url3d: "",
     videoUrl: "",
@@ -85,14 +72,8 @@ export const SEED_BIENS: Bien[] = [
     arrondissement: "Boulevard des Lions",
     description:
       "Cœur de Bir El Djir : F3 de 78m² au 3e étage, Résidence Melissa. Balcon filant, cuisine équipée, faïence importée, double vitrage, parking sous-sol + ascenseur. À 5 min de l'université et de l'axe Es Sénia. Idéal primo-accédant. Visite 7j/7 sur RDV.",
-    images: [
-      "https://images.pexels.com/photos/1571453/pexels-photo-1571453.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/2724748/pexels-photo-2724748.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    plans: [
-      "https://images.pexels.com/photos/7578848/pexels-photo-7578848.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
+    images: ["/q-akidlotfi.jpg", "/srv-interieur.jpg", "/q-bireldjir.jpg"],
+    plans: ["/srv-neuf.jpg"],
     mapsUrl: "https://www.google.com/maps?q=Boulevard+des+Lions+Bir+El+Djir+Oran",
     url3d: "",
     videoUrl: "",
@@ -117,15 +98,8 @@ export const SEED_BIENS: Bien[] = [
     arrondissement: "Bir El Djir",
     description:
       "Tour 14 étages Frange Maritime : 48 logements + 4 duplex, vue mer pour les étages supérieurs. 35 places de parking, hall double hauteur, finitions luxe. Livraison prévue Juillet 2026 (avancement 80%). Normes parasismiques, panneaux solaires communs. Plans par étage et vidéo drone disponibles.",
-    images: [
-      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    plans: [
-      "https://images.pexels.com/photos/7213434/pexels-photo-7213434.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/7578848/pexels-photo-7578848.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
+    images: ["/q-santacruz.jpg", "/band-oran.jpg", "/hero-oran-poster.jpg"],
+    plans: ["/srv-interieur.jpg", "/srv-neuf.jpg"],
     mapsUrl: "https://www.google.com/maps?q=Frange+Maritime+Oran",
     url3d: "",
     videoUrl: "https://www.youtube.com/watch?v=uM86KVBI9Yc",
@@ -150,14 +124,8 @@ export const SEED_BIENS: Bien[] = [
     arrondissement: "Oran",
     description:
       "Villa Ben Melissa Canastel : 240m² habitables, R+1 + terrasse 45m², jardin 120m², garage double. 4 chambres dont 2 suites, hammam, cuisine équipée, pergola. Clôture haute, portail motorisé, vidéosurveillance. À 8 min de la plage. Plan masse + plan 2D étages disponibles.",
-    images: [
-      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    plans: [
-      "https://images.pexels.com/photos/7578848/pexels-photo-7578848.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
+    images: ["/srv-interieur.jpg", "/q-akidlotfi.jpg", "/band-oran.jpg"],
+    plans: ["/srv-neuf.jpg"],
     mapsUrl: "https://www.google.com/maps?q=Canastel+Oran",
     url3d: "",
     videoUrl: "",
@@ -182,14 +150,8 @@ export const SEED_BIENS: Bien[] = [
     arrondissement: "Bir El Djir",
     description:
       "Local commercial 85m² Belgaïd, boulevard à fort passage, double vitrine 6m, hauteur sous plafond 3,2m. Idéal pharmacie / showroom / agence. Rideau métallique, climatisation, réserve 12m². Plan 2D coté disponible.",
-    images: [
-      "https://images.pexels.com/photos/1571453/pexels-photo-1571453.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/2724748/pexels-photo-2724748.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    plans: [
-      "https://images.pexels.com/photos/7213434/pexels-photo-7213434.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
+    images: ["/q-bireldjir.jpg", "/srv-interieur.jpg", "/band-oran.jpg"],
+    plans: ["/srv-interieur.jpg"],
     mapsUrl: "https://www.google.com/maps?q=Belgaïd+Bir+El+Djir+Oran",
     url3d: "",
     videoUrl: "",
