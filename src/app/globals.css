@@ -108,13 +108,8 @@ input, select, textarea {
   }
 }
 
-/* Touch targets min 44px */
+/* Cartes inset sur mobile : garder la bordure pour la definition */
 @media (max-width: 639px) {
-  .bien-card {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
   .bien-card-img {
     aspect-ratio: 16 / 9;
   }

@@ -34,6 +34,14 @@ export default function Header({ tel, telHref, logoUrl }: { tel: string; telHref
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    // Verrouiller le scroll du fond quand le menu mobile est ouvert
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <>
       {/* Bloc navbar fixé en haut, SANS fond : la vidéo passe derrière */}

@@ -42,7 +42,7 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
   const tabs: [Tab, string][] = [["photos", "Photos"], ["plan", "Plan 2D"], ["3d", "Maquette 3D"], ["video", "Vidéo"]];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 pb-28 md:pb-8">
       <p className="flex items-center gap-1 text-xs uppercase tracking-widest text-pierre"><IconPin size={13} /> {bien.localisation}{bien.arrondissement ? ` — ${bien.arrondissement}` : ""}</p>
       <div className="mt-1 flex flex-wrap items-start justify-between gap-3">
         <h1 className="font-display max-w-2xl text-3xl md:text-5xl">{bien.titre}</h1>

@@ -133,7 +133,7 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
                   <option value="30">Moins de 30 M DZD</option>
                 </select>
               </label>
-              <button className="min-h-[48px] self-end bg-noir px-8 text-champagne-clair transition hover:bg-[#1c1c1f]">Rechercher</button>
+              <button className="min-h-[48px] w-full self-end bg-noir px-8 text-champagne-clair transition hover:bg-[#1c1c1f] sm:w-auto">Rechercher</button>
             </div>
           </form>
         </Reveal>

@@ -13,7 +13,9 @@ export default async function Contact() {
           <p><a href={s.telHref} className="text-xl text-champagne-clair">{s.tel}</a></p>
           <p><a href={`mailto:${s.email}`} className="text-champagne-clair">{s.email}</a></p>
           <p className="text-pierre">{s.horaires} — {s.visites}</p>
-          <iframe title="Carte agence" src="https://www.google.com/maps?q=Rue+5+Juillet+Bir+El+Djir+Oran&output=embed" className="mt-4 h-64 w-full border border-champagne/25" loading="lazy" />
+          <div className="mt-4 aspect-video w-full">
+            <iframe title="Carte agence" src="https://www.google.com/maps?q=Rue+5+Juillet+Bir+El+Djir+Oran&output=embed" className="h-full w-full border border-champagne/25" loading="lazy" />
+          </div>
           <a href="https://www.google.com/maps?q=Rue+5+Juillet+Bir+El+Djir+Oran" target="_blank" rel="noreferrer" className="inline-flex min-h-[44px] items-center text-sm text-champagne">Ouvrir dans Google Maps</a>
         </div>
         <ContactForm />
