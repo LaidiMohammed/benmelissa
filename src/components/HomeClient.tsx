@@ -150,7 +150,7 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
             <Link href="/projets" className="group flex min-h-[44px] items-center gap-2 text-sm uppercase tracking-[0.2em] text-champagne">Tout le catalogue <span className="transition-transform group-hover:translate-x-1"><IconArrow size={15} /></span></Link>
           </div>
         </Reveal>
-        <div className="snap-row no-scrollbar mt-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+        <div className="projets-grid mt-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
           {vedettes.map((b) => (
             <div key={b.id} className="w-[86vw] max-w-[360px] md:w-auto md:max-w-none">
               <BienCard bien={b} />
@@ -180,7 +180,47 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
           </div>
         </Reveal>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_0.9fr]">
+        <div className="mt-8">
+          {/* Mobile: horizontal scroll 16/9 cards */}
+          <div className="lg:hidden snap-row no-scrollbar -mx-4 px-4">
+            <div className="w-[86vw] max-w-[360px] flex-shrink-0">
+              <Link href="/projets?quartier=Belga%C3%AFd" className="group relative block overflow-hidden border border-champagne/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={quartierImg("Belgaïd", biens, settings)} alt="Belgaïd — Les Iris" loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
+                <span className="absolute inset-0 bg-gradient-to-t from-noir/85 via-noir/10 to-transparent" />
+                <span className="absolute left-0 top-0 m-3 bg-champagne px-3 py-1 text-[10px] uppercase tracking-widest text-noir">Livré 2024 — 5 projets</span>
+                <span className="absolute inset-x-0 bottom-0 p-5">
+                  <span className="font-display block text-2xl text-creme">Belgaïd</span>
+                  <span className="text-xs uppercase tracking-[0.22em] text-champagne-clair/90">150 log. Les Iris — cœur Ben Melissa</span>
+                </span>
+              </Link>
+            </div>
+            <div className="w-[86vw] max-w-[360px] flex-shrink-0">
+              <Link href="/projets?quartier=Bir%20El%20Djir" className="group relative block overflow-hidden border border-champagne/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={quartierImg("Bir El Djir", biens, settings)} alt="Bd des Lions" loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
+                <span className="absolute inset-0 bg-gradient-to-t from-noir/80 via-noir/10 to-transparent" />
+                <span className="absolute left-3 top-3 bg-noir/80 px-2 py-1 text-[10px] uppercase tracking-widest text-champagne-clair">Bd des Lions</span>
+                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
+                  <span><span className="font-display block text-2xl text-creme">Bir El Djir</span><span className="text-xs uppercase tracking-[0.22em] text-champagne-clair/90">3 résidences — livrées 2022/23</span></span>
+                  <span className="flex h-10 w-10 items-center justify-center border border-champagne/60 text-champagne-clair transition group-hover:bg-champagne group-hover:text-noir"><IconArrow size={14} /></span>
+                </span>
+              </Link>
+            </div>
+            <div className="w-[86vw] max-w-[360px] flex-shrink-0">
+              <Link href="/projets?quartier=Frange%20Maritime" className="group relative block overflow-hidden border border-champagne/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={quartierImg("Frange Maritime", biens, settings)} alt="Frange Maritime" loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
+                <span className="absolute inset-0 bg-gradient-to-t from-noir/80 via-noir/10 to-transparent" />
+                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
+                  <span><span className="font-display block text-2xl text-creme">Frange Maritime</span><span className="text-xs uppercase tracking-[0.22em] text-champagne-clair/90">Tour 14 étages, vue mer</span></span>
+                  <span className="flex h-10 w-10 items-center justify-center border border-champagne/60 text-champagne-clair transition group-hover:bg-champagne group-hover:text-noir"><IconArrow size={14} /></span>
+                </span>
+              </Link>
+            </div>
+          </div>
+          {/* Desktop : grille asymetrique Belgaid + stack */}
+          <div className="hidden gap-6 lg:grid lg:grid-cols-[1.35fr_0.9fr]">
           {/* Gauche : Belgaïd — grande image + 2 vignettes projets chevauchantes */}
           <Reveal className="relative">
             <Link href="/projets?quartier=Belga%C3%AFd" className="group relative block overflow-hidden border border-champagne/20">
@@ -206,11 +246,11 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
                   </div>
                 </div>
               ))}
-            </div>
-          </Reveal>
+</div>
+      </Reveal>
 
           {/* Droite : stack Bd des Lions + Frange Maritime */}
-          <div className="grid gap-6">
+          <div className="grid content-start gap-6">
             <Reveal>
               <Link href="/projets?quartier=Bir%20El%20Djir" className="group relative block overflow-hidden border border-champagne/20">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -240,9 +280,28 @@ export default function HomeClient({ biens, settings }: { biens: Bien[]; setting
               </div>
             </Reveal>
           </div>
+          </div>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        {/* Bottom 3 quartiers - mobile scroll, desktop grid */}
+        <div className="mt-6 lg:hidden snap-row no-scrollbar -mx-4 px-4">
+          {[
+            ["Canastel", "Villas jardin & terrasse", "Canastel"],
+            ["Akid Lotfi", "Standing & vue mer", "Akid Lotfi"],
+            ["Es Sénia", "Axe université", "Es Sénia"],
+          ].map(([q, d, loc]) => (
+            <Reveal key={q} className="w-[84vw] max-w-[340px] flex-shrink-0">
+              <Link href={`/projets?quartier=${encodeURIComponent(loc)}`} className="group relative block overflow-hidden border border-champagne/20">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={quartierImg(loc, biens, settings)} alt={q} loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105" />
+                <span className="absolute inset-0 bg-gradient-to-t from-noir/70 to-transparent" />
+                <span className="absolute bottom-0 p-4"><span className="font-display block text-xl text-creme">{q}</span><span className="text-xs uppercase tracking-[0.2em] text-champagne-clair/80">{d}</span></span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+
+        <div className="hidden lg:grid gap-4 sm:grid-cols-3">
           {[
             ["Canastel", "Villas jardin & terrasse", "Canastel"],
             ["Akid Lotfi", "Standing & vue mer", "Akid Lotfi"],

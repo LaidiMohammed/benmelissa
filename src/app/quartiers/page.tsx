@@ -34,7 +34,7 @@ export default async function Quartiers() {
           <div key={t} className="overflow-hidden border border-champagne/20">
             <Link href={`/projets?quartier=${encodeURIComponent(t)}`} className="group relative block overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imgFor(t)} alt={t} loading="lazy" className="aspect-[16/8] w-full object-cover transition duration-700 group-hover:scale-105" />
+              <img src={imgFor(t)} alt={t} loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105 md:aspect-[16/8]" />
               <span className="absolute inset-0 bg-gradient-to-t from-noir/85 via-noir/20 to-transparent" />
               <span className="absolute bottom-0 flex w-full items-end justify-between p-5">
                 <span className="font-display text-3xl text-creme">{t}</span>

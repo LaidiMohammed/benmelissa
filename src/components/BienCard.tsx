@@ -26,12 +26,12 @@ export default function BienCard({ bien }: { bien: Bien }) {
           <FavButton bienId={bien.id} />
         </span>
       </Link>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="flex items-center gap-1 text-xs uppercase tracking-widest text-pierre">
           <IconPin size={13} /> {bien.localisation}
         </p>
         <Link href={`/projets/${bien.slug}`}>
-          <h3 className="mt-1 line-clamp-1 font-display text-xl text-creme transition group-hover:text-champagne-clair">{bien.titre}</h3>
+          <h3 className="mt-1 line-clamp-1 font-display text-lg sm:text-xl text-creme transition group-hover:text-champagne-clair">{bien.titre}</h3>
         </Link>
         <p className="mt-1 line-clamp-2 min-h-[2.6em] text-sm text-creme/60">{bien.description}</p>
         {bien.features.length > 0 && (
@@ -40,7 +40,7 @@ export default function BienCard({ bien }: { bien: Bien }) {
             {bien.features.length > 3 && <li className="px-2 py-0.5 text-[10px] text-pierre">+{bien.features.length - 3}</li>}
           </ul>
         )}
-        <p className="mt-2 flex flex-wrap items-center gap-3 text-sm text-creme/80">
+        <p className="mt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-creme/80">
           <span className="flex items-center gap-1"><IconArea size={15} /> {bien.surface} m²</span>
           <span className="flex items-center gap-1"><IconBed size={15} /> {bien.pieces} pièces</span>
           {bien.plans && bien.plans.length > 0 && <span className="border border-champagne/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-champagne">Plan 2D</span>}
@@ -48,9 +48,9 @@ export default function BienCard({ bien }: { bien: Bien }) {
           {bien.videoUrl && <span className="border border-champagne/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-champagne">Vidéo</span>}
           <span className="border border-champagne/30 px-2 py-0.5 text-[10px] uppercase tracking-widest text-champagne">QR</span>
         </p>
-        <div className="mt-auto flex items-center justify-between pt-4">
+        <div className="mt-auto flex items-center justify-between pt-3 sm:pt-4">
           <p className="font-display text-lg text-champagne">{formatPrix(bien.prix, bien.prixSuffixe)}</p>
-          <Link href={`/projets/${bien.slug}`} className="flex min-h-[44px] items-center border border-champagne/50 px-4 text-sm text-champagne-clair transition hover:bg-champagne hover:text-noir">
+          <Link href={`/projets/${bien.slug}`} className="flex min-h-[48px] items-center border border-champagne/50 px-4 text-sm text-champagne-clair transition hover:bg-champagne hover:text-noir sm:min-h-[44px] sm:px-5">
             Découvrir
           </Link>
         </div>

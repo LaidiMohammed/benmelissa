@@ -90,17 +90,69 @@ input, select, textarea {
   animation: kenburns 26s ease-in-out infinite alternate;
 }
 
-/* Cartes : dimensions strictement égales */
+/* Cartes : dimensions strictement égales — mobile cinématique 16/10, desktop 4/3 */
 .bien-card {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 .bien-card-img {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   width: 100%;
   object-fit: cover;
   display: block;
+}
+@media (min-width: 768px) {
+  .bien-card-img {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Touch targets min 44px */
+@media (max-width: 639px) {
+  .bien-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .bien-card-img {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Detail page mobile improvements */
+@media (max-width: 639px) {
+  .fiche-tabs {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .fiche-tabs > a {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .fiche-gallery img {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Card grid mobile: full width, no gaps on edges */
+@media (max-width: 639px) {
+  .projets-grid {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+  }
+  .projets-grid > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: calc(100% - 2rem);
+    max-width: calc(100% - 2rem);
+  }
 }
 
 /* Filet luxe avec losange (100 % CSS, zéro emoji) */

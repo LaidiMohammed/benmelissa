@@ -63,7 +63,7 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
         <span className="bg-creme px-2 py-1 text-noir">QR chantier ✓</span>
       </div>
 
-      <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto border-b border-champagne/20 px-4 md:mx-0 md:flex-wrap md:px-0">
+      <div className="fiche-tabs no-scrollbar -mx-4 flex gap-2 overflow-x-auto border-b border-champagne/20 px-4 md:mx-0 md:flex-wrap md:px-0">
         {tabs.map(([id, label]) => (
           <a key={id} href={`?tab=${id}`} onClick={(e) => { e.preventDefault(); setTab(id); window.history.replaceState(null, "", `?tab=${id}`); }}
             className={`flex min-h-[48px] flex-shrink-0 items-center px-5 text-sm transition active:scale-[0.98] md:min-h-[44px] ${tab === id ? "bg-champagne text-noir" : "text-creme/70 hover:text-champagne-clair"}`}>{label}</a>
@@ -73,11 +73,11 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
       <AnimatePresence mode="wait">
         <motion.div key={tab} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }} className="py-6">
           {tab === "photos" && (
-            <div className="snap-row no-scrollbar sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 lg:grid-cols-3">
+            <div className="fiche-gallery snap-row no-scrollbar sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 lg:grid-cols-3">
               {bien.images.map((src) => (
-                <button key={src} onClick={() => setLightbox(src)} className="group w-[84vw] max-w-[380px] overflow-hidden border border-champagne/15 active:border-champagne sm:w-auto sm:max-w-none">
+                <button key={src} onClick={() => setLightbox(src)} className="group w-[86vw] max-w-[380px] overflow-hidden border border-champagne/15 active:border-champagne sm:w-auto sm:max-w-none">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt={bien.titre} loading="lazy" className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105" />
+                  <img src={src} alt={bien.titre} loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
                 </button>
               ))}
               {bien.images.length === 0 && <p className="text-pierre">Photos à venir.</p>}
@@ -86,13 +86,13 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
           {tab === "plan" && (
             <div>
               {plans.length === 0 && <p className="text-pierre">Plans à venir.</p>}
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="fiche-gallery snap-row no-scrollbar sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 lg:grid-cols-3">
                 {plans.map((p) => /\.pdf(\?|$)/i.test(p) ? (
                   <a key={p} href={p} target="_blank" rel="noreferrer" className="flex min-h-[64px] items-center justify-center border border-champagne/40 px-4 text-champagne-clair">Ouvrir le plan PDF</a>
                 ) : (
-                  <button key={p} onClick={() => setLightbox(p)} className="overflow-hidden border border-champagne/15">
+                  <button key={p} onClick={() => setLightbox(p)} className="group w-[86vw] max-w-[380px] overflow-hidden border border-champagne/15 active:border-champagne sm:w-auto sm:max-w-none">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p} alt="Plan 2D" loading="lazy" className="aspect-[4/3] w-full object-cover transition duration-500 hover:scale-105" />
+                    <img src={p} alt="Plan 2D" loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
                   </button>
                 ))}
               </div>
@@ -101,7 +101,9 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
           {tab === "3d" && (
             <div>
               {d3 ? (
-                <iframe src={d3.embedUrl} title="Maquette 3D" className="h-[60vh] w-full border border-champagne/25 bg-black" allow="autoplay; fullscreen; xr-spatial-tracking" allowFullScreen />
+                <div className="aspect-video w-full">
+                  <iframe src={d3.embedUrl} title="Maquette 3D" className="h-full w-full border border-champagne/25 bg-black" allow="autoplay; fullscreen; xr-spatial-tracking" allowFullScreen />
+                </div>
               ) : (
                 <p className="border border-champagne/20 p-6 text-sm text-creme/70">Maquette 3D à venir. L’admin colle simplement un lien Sketchfab ou Matterport dans le champ « Lien 3D ».</p>
               )}
@@ -111,7 +113,9 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
             <div className="grid gap-6 lg:grid-cols-2">
               <div>
                 {yt ? (
-                  <iframe src={yt.embedUrl} title="Vidéo" className="aspect-video w-full border border-champagne/25" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+                  <div className="aspect-video w-full">
+                    <iframe src={yt.embedUrl} title="Vidéo" className="h-full w-full border border-champagne/25" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+                  </div>
                 ) : tiktokHtml ? (
                   <div dangerouslySetInnerHTML={{ __html: tiktokHtml }} />
                 ) : tk ? (
@@ -123,7 +127,9 @@ export default function FicheClient({ bien, settings, initialTab }: { bien: Bien
               <div>
                 {maps && (
                   <>
-                    <iframe src={maps.embedUrl} title="Carte" className="h-64 w-full border border-champagne/25" loading="lazy" />
+                    <div className="aspect-video w-full">
+                      <iframe src={maps.embedUrl} title="Carte" className="h-full w-full border border-champagne/25" loading="lazy" />
+                    </div>
                     <a href={maps.watchUrl} target="_blank" rel="noreferrer" className="mt-2 inline-flex min-h-[44px] items-center text-sm text-champagne">Ouvrir dans Google Maps</a>
                   </>
                 )}
